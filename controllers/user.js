@@ -12,6 +12,21 @@ function pruebas(req, res){
     });
 }
 
+function usersList(req, res) {
+    User.find().sort('name').exec((err, users) => {
+        if(err){
+            res.status(500).send({message: 'Error en la peticion.'});
+        }else{
+            if(!users){
+                res.status(404).send({message: 'No hay Usuarios.'});
+            } else {
+                return res.status(200).send({users});
+            }
+            
+        }
+    });
+}
+
 function saveUser(req, res){
      var user = new User();
      var params = req.body;
@@ -163,6 +178,7 @@ function getImageFile(req, res){
 // aca cargo el array de funciones para que sean exportadas
 module.exports = {
     pruebas,
+    usersList,
     saveUser,
     loginUser,
     updateUser,
